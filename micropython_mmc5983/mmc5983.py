@@ -45,7 +45,16 @@ CM_50HZ = const(0b100)
 CM_100HZ = const(0b101)
 CM_200HZ = const(0b110)
 CM_1000HZ = const(0b111)
-continuous_mode_frequency_values = (CM_OFF, CM_1HZ, CM_10HZ, CM_20HZ, CM_50HZ, CM_100HZ, CM_200HZ, CM_1000HZ)
+continuous_mode_frequency_values = (
+    CM_OFF,
+    CM_1HZ,
+    CM_10HZ,
+    CM_20HZ,
+    CM_50HZ,
+    CM_100HZ,
+    CM_200HZ,
+    CM_1000HZ,
+)
 
 BW_100HZ = const(0b00)
 BW_200HZ = const(0b01)
@@ -92,18 +101,11 @@ class MMC5983:
 
     _bandwidth = CBits(2, _INTERNAL_CONTROL1, 0)
 
-    _temp_measure_done = CBits(1, 0x08, 1)
-    _mag_measure_done = CBits(1, 0x08, 0)
-
     _continuous_mode_frequency = CBits(3, _INTERNAL_CONTROL2, 0)
     _operation_mode = CBits(1, _INTERNAL_CONTROL2, 3)
 
     _start_magnetic_measure = CBits(1, _INTERNAL_CONTROL0, 0)
     _start_temperature_measure = CBits(1, _INTERNAL_CONTROL0, 1)
-
-    internal_control = RegisterStruct(_INTERNAL_CONTROL0, "B")
-    internal_control2 = RegisterStruct(_INTERNAL_CONTROL2, "B")
-
 
     def __init__(self, i2c, address: int = 0x30) -> None:
         self._i2c = i2c
@@ -120,7 +122,7 @@ class MMC5983:
     def operation_mode(self) -> str:
         """
         Sensor operation_mode. In order to enter the continuous mode,
-        :attr:`continuous_mode_frequency` cannot be `CM_OFF`
+        :attr:`continuous_mode_frequency` cannot be :attr:`CM_OFF`
 
         +--------------------------------+-----------------+
         | Mode                           | Value           |
@@ -147,7 +149,7 @@ class MMC5983:
         """
         Sensor continuous_mode_frequency determine how often the chip
         will take measurements in Continuous Measurement Mode. The frequency is
-        based on the assumption that :attr:`bandwidth` is `BW_100HZ`
+        based on the assumption that :attr:`bandwidth` is :attr:`BW_100HZ`
 
         +-------------------------------+-------------------+
         | Mode                          | Value             |
@@ -169,7 +171,16 @@ class MMC5983:
         | :py:const:`mmc5983.CM_1000HZ` | :py:const:`0b111` |
         +-------------------------------+-------------------+
         """
-        values = ("CM_OFF", "CM_1HZ", "CM_10HZ", "CM_20HZ", "CM_50HZ", "CM_100HZ", "CM_200HZ", "CM_1000HZ")
+        values = (
+            "CM_OFF",
+            "CM_1HZ",
+            "CM_10HZ",
+            "CM_20HZ",
+            "CM_50HZ",
+            "CM_100HZ",
+            "CM_200HZ",
+            "CM_1000HZ",
+        )
         return values[self._cmfc]
 
     @continuous_mode_frequency.setter
@@ -222,12 +233,12 @@ class MMC5983:
         self.operation_mode = CONTINUOUS
 
     @property
-    def magnetic(self):
+    def magnetic(self) -> Tuple[float, float, float]:
         """
         Returns magnetic data in uT
         """
 
-        x,y,z, extra = self._raw_data
+        x, y, z, extra = self._raw_data
         time.sleep(0.2)
         x_raw = (x << 2) | (((extra & 0xC0) >> 6) & 0x3)
         y_raw = (y << 2) | (((extra & 0x30) >> 4) & 0x3)
@@ -246,7 +257,7 @@ class MMC5983:
         return x_scale, y_scale, z_scale
 
     @property
-    def temperature(self):
+    def temperature(self) -> float:
         """
         Returns Temperature in Celsius
         """

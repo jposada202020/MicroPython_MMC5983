@@ -13,7 +13,9 @@ mmc.continuous_mode_frequency = mmc5983.CM_20HZ
 
 while True:
     for continuous_mode_frequency in mmc5983.continuous_mode_frequency_values:
-        print("Current Continuous mode frequency setting: ", mmc.continuous_mode_frequency)
+        print(
+            "Current Continuous mode frequency setting: ", mmc.continuous_mode_frequency
+        )
         for _ in range(5):
             magx, magy, magz = mmc.magnetic
             print(f"X: {magx:.2f}uT, Y: {magy:.2f}uT, Z: {magz:.2f}uT")
