@@ -93,6 +93,8 @@ class MMC5983:
 
     .. code-block:: python
 
+        magx, magy, magz = mmc5983.magnetic
+
     """
 
     _device_id = RegisterStruct(_REG_WHOAMI, "B")

@@ -14,6 +14,6 @@ while True:
     print(f"X: {magx:.2f}uT, Y: {magy:.2f}uT, Z: {magz:.2f}uT")
     time.sleep(0.5)
     temp = mmc.temperature
-    print(f"Temperature {temp:.1f}C")
+    print(f"Temperature {temp:.1f}°C")
     print()
     time.sleep(0.5)

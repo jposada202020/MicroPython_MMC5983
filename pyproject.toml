@@ -22,11 +22,8 @@ keywords = [
     "sensor",
     "micropython",
     "mmc5983",
-    "micropython",
     "driver",
-    "sensor",
     "magnetometer",
-    "mmc5983",
 ]
 license = {text = "MIT"}
 classifiers = [
